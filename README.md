@@ -1,3 +1,3 @@
 # random-reshuffle
 
-This readme file is under construction.
+This readme file is still under construction.
