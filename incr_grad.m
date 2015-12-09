@@ -1,4 +1,4 @@
-function [ave_iter, ave_step, bias, step,all_iters] = incr_grad(funcs,order,m,n,nCycles,step0,x,stoclevel, removebias, record)
+function [ave_iter, ave_step, bias, step,all_iters,last_iter] = incr_grad(funcs,order,m,n,nCycles,step0,x,stoclevel, removebias, record,decayrate)
 %%% save outer iterates and their averages for analysis 
 %iters = zeros(n,nCycles);
 %run_ave = zeros(n,nCycles); %i-th column is the averaged iterates in cycles 0 to i-1.
@@ -15,6 +15,8 @@ end
 ave_iter = 0; 
 ave_step = 0; 
 bias = 0;
+last_iter = 0; 
+
 %%% for each cycle k
 for k=0:(nCycles-1)
   
@@ -26,7 +28,7 @@ for k=0:(nCycles-1)
     
     %%% Perform a cycle of the alg.
       
-     [x,step,bias_coef] = trainCycle(funcs, order, x, step0, k,removebias);
+     [x,step,bias_coef] = trainCycle(funcs, order, x, step0, k,removebias,decayrate);
      if(record == 1) 
         all_iters(:,k+1) = x; 
      end
@@ -45,6 +47,8 @@ for k=0:(nCycles-1)
          %display(sprintf('estimated bias of %15.15f', bias)) 
          %x = x - bias; 
      end
+     
+     last_iter = x; 
 %     if ( k == 0 )
 %         run_ave(:,1)  = x; 
 %         step_ave(1,1) = step;

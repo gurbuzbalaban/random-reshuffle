@@ -24,8 +24,8 @@ end
 
 if (i == 1)
     % second function
-    a = 1.0; b = 1.0; c=0.5;
-    
+    a = 1.0; b = 1.0; c=0.5; %(x+1)^2/2 + x^2
+    %a = 0.5; b = 1.0; c=0.5;  %COMMENT LATER
 end
 
 func{1} = @(x) (a*x*x + b*x + c);

@@ -1,10 +1,10 @@
-function [x, step, bias_coef] = trainCycle(fncList, procOrder, x, step0, cycleNbr,get_bias_coef)
+function [x, step, bias_coef] = trainCycle(fncList, procOrder, x, step0, cycleNbr,get_bias_coef,decayrate)
    m = length(fncList);
    if (m ~= length(procOrder))
        error('procOrder does not have the right size');
    end
    % determine stepsize
-   step = determineStep(step0,cycleNbr); 
+   step = determineStep(step0,cycleNbr,decayrate); 
    
    n = length(x);
    ctr_vec = zeros(n,1);
@@ -27,7 +27,7 @@ function [x, step, bias_coef] = trainCycle(fncList, procOrder, x, step0, cycleNb
 end
 
  
-function step = determineStep(step0, cycleNbr)
-   stepDecayRate = 0.75; 
+function step = determineStep(step0, cycleNbr,stepDecayRate)
+   
    step = step0 * power(cycleNbr+1, -stepDecayRate); 
 end
