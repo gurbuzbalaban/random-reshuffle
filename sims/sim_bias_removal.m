@@ -5,14 +5,15 @@ close all
 relative_save_dir = strcat('sim_output_',int2str(test_nbr));
  
 save_dir = strcat(pwd,'/',relative_save_dir);
-if isequal(exist(save_dir, 'dir'),7) % 7 = directory.
-    % Return, there is already a folder!
-    display('Sim folder exists. Error. Terminating.');
-    return
-else
-    % generate folder to save sim results
-    mkdir(pwd,relative_save_dir);
-end
+%UNCOMMENT THE SECTION BELOW LATER.
+% if isequal(exist(save_dir, 'dir'),7) % 7 = directory.
+%     Return, there is already a folder!
+%     display('Sim folder exists. Error. Terminating.');
+%     return 
+% else
+%     generate folder to save sim results
+%     mkdir(pwd,relative_save_dir);
+% end
 %%% set parameters of the program
 m = config.m; %number of functions
 n = config.n;  %the dimension
@@ -23,7 +24,7 @@ stoclevel = config.stoclevel; %stochasticity level
 removebias = config.removebias; 
 nbr_paths = config.nbr_paths;
 record = config.record;
-
+decayrate = config.stepdecay; 
 %%% preprocessing
 global funcs;
 
@@ -45,10 +46,10 @@ bias = zeros(n, nbr_paths);
 for j=1:nbr_paths
     tic
     if(j == 1) 
-        [ave_iter(:,j), ave_step, bias(:,j), step,all_iters,~] = incr_grad(funcs,order,m,n,nCycles,step0,x,stoclevel,removebias,record);
+        [ave_iter(:,j), ave_step, bias(:,j), step,all_iters,~] = incr_grad(funcs,order,m,n,nCycles,step0,x,stoclevel,removebias,record,decayrate);
     else 
         %%% the second parameter (average step) is the same, no need to save it again
-        [ave_iter(:,j), ~, bias(:,j), step, all_iters,~] = incr_grad(funcs,order,m,n,nCycles,step0,x,stoclevel,removebias,record); 
+        [ave_iter(:,j), ~, bias(:,j), step, all_iters,~] = incr_grad(funcs,order,m,n,nCycles,step0,x,stoclevel,removebias,record,decayrate); 
     end
     display(sprintf('Sim number %d', j))  
     toc
@@ -115,6 +116,7 @@ norm_error_vec
 
 hold on
 h2 = histogram (norm_error_vec_unbiased);
+norm_error_vec_unbiased
 
 mycenter = mean(norm_error_vec);
 myline = line([mycenter mycenter], get(gca, 'ylim'));
@@ -147,7 +149,8 @@ myline = line([myfcenter_unbiased myfcenter_unbiased], get(gca, 'ylim'));
 myline.Color = 'red';
 myline.LineWidth = 1;
 title('Histograms of the suboptimality in cost before (in blue) and after noise removal (in orange)')
-
+obj_subopt_vec_unbiased
+obj_subopt_vec
 %Bottom: Histograms of the suboptimality in cost.')
 
 %save results

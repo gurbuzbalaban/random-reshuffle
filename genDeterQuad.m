@@ -9,7 +9,7 @@ R = rand(n,n);
 A = R + R' + 3 * eye(n); 
 
 myfunc{1} = @(y) (scalefac * (y-bias)' * A * (y-bias)); %function value
-myfunc{2} = @(y) (scalefac * 2*A*(y-bias)) ; %derivative
-myfunc{3} = @(y) (scalefac * 2*A);       % Hessian
+myfunc{2} = @(y) (scalefac * 2*A*(y-bias)) ; % derivative
+myfunc{3} = @(y) (scalefac * 2*A);           % Hessian
 
 end

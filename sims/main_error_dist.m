@@ -3,11 +3,11 @@ clear all
 addpath('../')
 config1.m = 2  %number of functions
 config1.n = 1  %the dimension for the iterates
-config1.nCycles = 50 %100000 %100000;  %50 %number of cycles
+config1.nCycles = 2000 %2000 %100000 %100000;  %50 %number of cycles
 config1.step0 = 1; %/ (3 * config1.m* config1.n);   %initial stepsize
 config1.x = ones(config1.n,1); %initial point
 config1.removebias = 0; 
-config1.nbr_paths = 10000 %2000% 10000 %10000 % 750; %1000;
+config1.nbr_paths = 2000 %2000% 10000 %10000 % 750; %1000;
 config1.record = 0; %no need to record all the iters
 config1.stepdecay = 0.75; % 1.0; 
 
